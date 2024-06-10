@@ -23,9 +23,9 @@ const crearDeck = () => {
             deck.push(especial + tipo);
         }
     }
-    
+
     deck = _.shuffle(deck);
-    console.log(deck);
+    // console.log(deck);
 }
 
 crearDeck();
@@ -44,5 +44,30 @@ const pedirCarta = () => {
 
 // para probar el error
 // deck = [];
-console.log(pedirCarta());
-console.log(deck);
+// console.log(pedirCarta());
+
+const valorCarta = (carta = '') => {
+    const valor = carta.substring(0, carta.length - 1);
+    // let puntos = 0;
+    // if (isNaN(valor)) {
+    //     console.log('No es un número');
+
+    //     puntos = (valor === 'A') ? 11 : 10;
+
+    // } else {
+    //     console.log('Es un número');
+    //     // multiplicamos por 1 para convertir el string en number
+    //     puntos = valor * 1;
+    // }
+    // console.log(puntos);
+
+    // * Resumido
+    return (isNaN(valor))  ?
+           (valor === 'A') ?  11 : 10
+           : valor * 1;
+
+}
+
+// console.log(valorCarta('QD'));
+const valor = valorCarta(pedirCarta());
+console.log(valor);

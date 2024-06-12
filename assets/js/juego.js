@@ -15,8 +15,10 @@ let puntosComputadora = 0;
 
 // Referencias HTML
 const btnPedir = document.querySelector('#btnPedir');
+const btnDetener = document.querySelector('#btnDetener');
 const puntosHTML = document.querySelectorAll('small');
 const divCartasJugador = document.querySelector('#jugador-cartas');
+const divCartasComputadora = document.querySelector('#computadora-cartas');
 
 
 // Esta funcion crea un nuevo deck
@@ -77,6 +79,29 @@ const valorCarta = (carta = '') => {
 
 }
 
+// Turno de la computadora
+const turnoComputadora = (puntosMinimos) => {
+    do {
+        const carta = pedirCarta();
+        
+        puntosComputadora = puntosComputadora + valorCarta(carta);
+
+        puntosHTML[1].innerText = puntosComputadora;
+
+        // Crear carta HTML
+        const imgCarta = document.createElement('img');
+        imgCarta.src = `assets/cartas/${carta}.png`;
+        imgCarta.classList.add('carta');
+        divCartasComputadora.append(imgCarta);
+
+        // Si el jugador saca más de 21, con una carta la computadora gana
+        if (puntosMinimos > 21) {
+            break;
+        }
+
+    } while ((puntosComputadora < puntosMinimos) && (puntosMinimos <= 21));
+}
+
 // console.log(valorCarta('QD'));
 const valor = valorCarta(pedirCarta());
 // console.log(valor);
@@ -98,7 +123,18 @@ btnPedir.addEventListener('click', () => {
     if (puntosJugador > 21) {
         console.warn('Perdiste :(');
         btnPedir.disabled = true;
+        btnDetener.disabled = true;
+        turnoComputadora(puntosJugador);
     } else if (puntosJugador === 21) {
         console.warn('21 Genial');
+        btnDetener.disabled = true;
+        turnoComputadora(puntosJugador);
     }
+});
+
+btnDetener.addEventListener('click', () => {
+    btnPedir.disabled = true;
+    btnDetener.disabled = true;
+
+    turnoComputadora(puntosJugador);
 });

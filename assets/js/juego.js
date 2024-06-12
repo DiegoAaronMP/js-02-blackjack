@@ -16,6 +16,7 @@ let puntosComputadora = 0;
 // Referencias HTML
 const btnPedir = document.querySelector('#btnPedir');
 const puntosHTML = document.querySelectorAll('small');
+const divCartasJugador = document.querySelector('#jugador-cartas');
 
 
 // Esta funcion crea un nuevo deck
@@ -87,4 +88,11 @@ btnPedir.addEventListener('click', () => {
     puntosJugador = puntosJugador + valorCarta(carta);
 
     puntosHTML[0].innerText = puntosJugador;
+
+    // Crear carta HTML
+    const imgCarta = document.createElement('img');
+    imgCarta.src = `assets/cartas/${carta}.png`;
+    imgCarta.classList.add('carta');
+
+    divCartasJugador.append(imgCarta);
 });

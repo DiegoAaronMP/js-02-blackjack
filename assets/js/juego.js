@@ -3,20 +3,29 @@
     'use strict'
 
     let deck = [];
-    const tipos = ['C', 'D', 'H', 'S'];
-    const especiales = ['A', 'J', 'Q', 'K'];
+    const tipos = ['C', 'D', 'H', 'S'],
+          especiales = ['A', 'J', 'Q', 'K'];
 
-    let puntosJugador = 0;
-    let puntosComputadora = 0;
+    // let puntosJugador = 0,
+    //     puntosComputadora = 0;
+    let puntosJugadores = [];
 
     // Referencias HTML
-    const btnPedir = document.querySelector('#btnPedir');
-    const btnDetener = document.querySelector('#btnDetener');
-    const btnNuevo = document.querySelector('#btnNuevo');
-    const puntosHTML = document.querySelectorAll('small');
-    const divCartasJugador = document.querySelector('#jugador-cartas');
-    const divCartasComputadora = document.querySelector('#computadora-cartas');
+    const btnPedir = document.querySelector('#btnPedir'),
+          btnDetener = document.querySelector('#btnDetener'),
+          btnNuevo = document.querySelector('#btnNuevo');
 
+    const puntosHTML = document.querySelectorAll('small'),
+          divCartasJugador = document.querySelector('#jugador-cartas'),
+          divCartasComputadora = document.querySelector('#computadora-cartas');
+
+    // Iniciar juego
+    const inicializarJuego = (numJugadores = 2) => {
+        deck = crearDeck();
+        for( let i = 0; i < numJugadores; i++ ){
+            puntosJugadores.push(0);
+        }
+    }
 
     // Esta funcion crea un nuevo deck
     const crearDeck = () => {
@@ -34,11 +43,10 @@
             }
         }
 
-        deck = _.shuffle(deck);
+        return _.shuffle(deck);
         // console.log(deck);
     }
 
-    crearDeck();
 
     // Esta funcion me permite tomer una carta
     const pedirCarta = () => {
@@ -48,16 +56,17 @@
             throw 'No hay cartas en el deck';
         }
 
-        const carta = deck.pop();
-        return carta;
+        // const carta = deck.pop();
+        return deck.pop();
     }
 
     // para probar el error
     // deck = [];
     // console.log(pedirCarta());
 
+    // Obtener el valor de la carta
     const valorCarta = (carta = '') => {
-        const valor = carta.substring(0, carta.length - 1);
+        // const valor = carta.substring(0, carta.length - 1);
         // let puntos = 0;
         // if (isNaN(valor)) {
         //     console.log('No es un número');
@@ -72,9 +81,14 @@
         // console.log(puntos);
 
         // * Resumido
+        const valor = carta.substring(0, carta.length - 1);
         return (isNaN(valor)) ?
             (valor === 'A') ? 11 : 10
             : valor * 1;
+
+    }
+
+    const acumularPuntos = () => {
 
     }
 
@@ -84,7 +98,6 @@
             const carta = pedirCarta();
 
             puntosComputadora = puntosComputadora + valorCarta(carta);
-
             puntosHTML[1].innerText = puntosComputadora;
 
             // Crear carta HTML
@@ -152,8 +165,7 @@
 
     btnNuevo.addEventListener('click', () => {
         console.clear();
-
-        crearDeck();
+        inicializarJuego();
 
         puntosJugador = 0;
         puntosComputadora = 0;
